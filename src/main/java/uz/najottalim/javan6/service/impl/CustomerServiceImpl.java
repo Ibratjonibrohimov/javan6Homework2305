@@ -36,7 +36,21 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto addCustomer(CustomerDto customerDto) throws Exception {
-        customerRepository.save(CustomerMapper.toEntity(customerDto));
-        return null;
+        return CustomerMapper.toDto(customerRepository.save(CustomerMapper.toEntity(customerDto)));
     }
+
+    @Override
+    public CustomerDto upadtecustomer(Long id, CustomerDto customerDto)throws Exception {
+        CustomerDto customerById = getCustomerById(id);
+        customerDto.setId(id);
+        return CustomerMapper.toDto(customerRepository.save(CustomerMapper.toEntityForUpdate(customerDto,customerById)));
+    }
+
+    @Override
+    public CustomerDto deleteCustomer(Long id)throws Exception {
+        CustomerDto customerById = getCustomerById(id);
+        customerRepository.deleteById(id);
+        return customerById;
+    }
+
 }

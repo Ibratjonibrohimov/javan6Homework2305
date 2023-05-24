@@ -20,6 +20,19 @@ public class CustomerMapper {
         );
     }
     public static Customer toEntity(CustomerDto customerDto){
+        if (customerDto == null)return null;
         return new Customer(customerDto.getId(),customerDto.getName(),customerDto.getTier());
+    }
+    public static Customer toEntityForUpdate(CustomerDto customerDto,CustomerDto customerById){
+        if(customerDto == null ) return null;
+        return new Customer(
+                customerDto.getId(),
+                customerDto.getName(),
+                customerDto.getTier(),
+                customerDto.getOrders()==null?null:customerById.getOrders()
+                        .stream()
+                        .map(OrderMapper::toEntity)
+                        .collect(Collectors.toList())
+        );
     }
 }

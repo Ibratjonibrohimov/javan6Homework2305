@@ -23,4 +23,12 @@ public class CustomerController {
     public CustomerDto addCustomer(@RequestBody CustomerDto customerDto) throws Exception {
         return customerService.addCustomer(customerDto);
     }
+    @PutMapping("/{id}")
+    public CustomerDto updateCustomer(@RequestBody CustomerDto customerDto,@PathVariable Long id)throws Exception{
+        return customerService.upadtecustomer(id,customerDto);
+    }
+    @DeleteMapping("/{id}")
+    public CustomerDto deleteCustomer(@PathVariable Long id)throws Exception{
+        return customerService.deleteCustomer(id);
+    }
 }
