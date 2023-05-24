@@ -1,17 +1,25 @@
 package uz.najottalim.javan6.mapping;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import uz.najottalim.javan6.dto.CustomerDto;
 import uz.najottalim.javan6.entity.Customer;
+
+import java.util.stream.Collectors;
 
 @Data
 public class CustomerMapper {
     public static CustomerDto toDto(Customer customer){
-        return null;
+        return new CustomerDto(
+                customer.getId(),
+                customer.getName(),
+                customer.getTier(),
+                customer.getOrders()==null?null:customer.getOrders()
+                        .stream()
+                        .map(OrderMapper::toDtoForOther)
+                        .collect(Collectors.toList())
+        );
     }
     public static Customer toEntity(CustomerDto customerDto){
-        return null;
+        return new Customer(customerDto.getId(),customerDto.getName(),customerDto.getTier());
     }
 }

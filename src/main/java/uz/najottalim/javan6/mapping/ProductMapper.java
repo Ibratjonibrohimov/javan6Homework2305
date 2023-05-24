@@ -20,7 +20,7 @@ public class ProductMapper {
                     product.getPrice(),
                     product.getOrders()==null?null:product.getOrders()
                             .stream()
-                            .map(OrderMapper::toDtoForProduct)
+                            .map(OrderMapper::toDtoForOther)
                             .collect(Collectors.toList())
         );
     }

@@ -12,7 +12,7 @@ public class OrderMapper {
     public static OrderDto toDto(Order order){
         return null;
     }
-    public static OrderDto toDtoForProduct(Order order){
+    public static OrderDto toDtoForOther(Order order){
         return new OrderDto(order.getId(),order.getOrderDate(),order.getDeliveryDate(),order.getStatus());
     }
 }

@@ -15,5 +15,11 @@ public class Customer {
     private String name;
     private Integer tier;
     @OneToMany(mappedBy = "customer")
-    List<Order> orders;
+    private List<Order> orders;
+
+    public Customer(Long id, String name, Integer tier) {
+        this.id = id;
+        this.name = name;
+        this.tier = tier;
+    }
 }
