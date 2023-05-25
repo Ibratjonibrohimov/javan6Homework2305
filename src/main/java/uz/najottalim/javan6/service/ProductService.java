@@ -6,13 +6,13 @@ import uz.najottalim.javan6.dto.ProductDto;
 import java.util.List;
 
 public interface ProductService {
-    List<ProductDto> getAllProducts();
+    ResponseEntity<List<ProductDto>> getAllProducts();
 
-    ProductDto getProductById(Long id);
+    ResponseEntity<ProductDto> getProductById(Long id);
 
-    ProductDto addProduct(ProductDto productDto) throws Exception;
+    ResponseEntity<ProductDto> addProduct(ProductDto productDto) ;
 
-    ProductDto updateProduct(Long id, ProductDto productDto) throws Exception;
+    ResponseEntity<ProductDto> updateProduct(Long id, ProductDto productDto) ;
 
-    ProductDto deleteProduct(Long id) throws Exception;
+    ResponseEntity<ProductDto> deleteProduct(Long id) ;
 }

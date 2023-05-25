@@ -20,9 +20,17 @@ public class ProductMapper {
                     product.getPrice(),
                     product.getOrders()==null?null:product.getOrders()
                             .stream()
-                            .map(OrderMapper::toDtoForOther)
+                            .map(OrderMapper::toDtoWithoutCustomerAndProducts)
                             .collect(Collectors.toList())
         );
     }
-
+    public static ProductDto toDtoWithoutOrders(Product product){
+        if(product == null) return null;
+        return new ProductDto(
+                product.getId(),
+                product.getCategory(),
+                product.getName(),
+                product.getPrice()
+        );
+    }
 }

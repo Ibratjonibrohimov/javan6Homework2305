@@ -1,6 +1,7 @@
 package uz.najottalim.javan6.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uz.najottalim.javan6.dto.CustomerDto;
 import uz.najottalim.javan6.entity.Customer;
@@ -11,6 +12,7 @@ import uz.najottalim.javan6.service.CustomerService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,37 +20,41 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     CustomerRepository customerRepository;
     @Override
-    public List<CustomerDto> getAllCustomers() {
-        return customerRepository.findAll()
+    public ResponseEntity<List<CustomerDto>> getAllCustomers() {
+        List<CustomerDto> collect = customerRepository.findAll()
                 .stream().map(CustomerMapper::toDto).collect(Collectors.toList());
-
+        return ResponseEntity.ok(collect);
     }
     @Override
-    public CustomerDto getCustomerById(Long id) {
+    public ResponseEntity<CustomerDto> getCustomerById(Long id) {
         Optional<Customer> customer = customerRepository.findById(id);
         if (customer.isEmpty()){
             throw new NoResourceFoundException("No Data Found");
         }
         else {
-            return CustomerMapper.toDto(customer.get());
+            CustomerDto customerDto = CustomerMapper.toDto(customer.get());
+            return ResponseEntity.ok(customerDto);
         }
     }
 
     @Override
-    public CustomerDto addCustomer(CustomerDto customerDto) throws Exception {
-        return CustomerMapper.toDto(customerRepository.save(CustomerMapper.toEntity(customerDto)));
+    public ResponseEntity<CustomerDto> addCustomer(CustomerDto customerDto)  {
+        CustomerDto add = CustomerMapper.toDto(customerRepository.save(CustomerMapper.toEntity(customerDto)));
+        return ResponseEntity.ok(add);
     }
 
     @Override
-    public CustomerDto upadtecustomer(Long id, CustomerDto customerDto)throws Exception {
-        CustomerDto customerById = getCustomerById(id);
+    public ResponseEntity<CustomerDto> upadtecustomer(Long id, CustomerDto customerDto) {
+        ResponseEntity<CustomerDto> customerById = getCustomerById(id);
         customerDto.setId(id);
-        return CustomerMapper.toDto(customerRepository.save(CustomerMapper.toEntityForUpdate(customerDto,customerById)));
+        CustomerDto update =
+                CustomerMapper.toDto(customerRepository.save(CustomerMapper.toEntityForUpdate(customerDto)));
+        return ResponseEntity.ok(update);
     }
 
     @Override
-    public CustomerDto deleteCustomer(Long id)throws Exception {
-        CustomerDto customerById = getCustomerById(id);
+    public ResponseEntity<CustomerDto> deleteCustomer(Long id) {
+        ResponseEntity<CustomerDto> customerById = getCustomerById(id);
         customerRepository.deleteById(id);
         return customerById;
     }

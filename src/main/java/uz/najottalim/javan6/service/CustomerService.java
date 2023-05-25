@@ -1,17 +1,18 @@
 package uz.najottalim.javan6.service;
 
+import org.springframework.http.ResponseEntity;
 import uz.najottalim.javan6.dto.CustomerDto;
 
 import java.util.List;
 
 public interface CustomerService {
-    List<CustomerDto> getAllCustomers();
+    ResponseEntity<List<CustomerDto>> getAllCustomers();
 
-    CustomerDto getCustomerById(Long id);
+    ResponseEntity<CustomerDto> getCustomerById(Long id);
 
-    CustomerDto addCustomer(CustomerDto customerDto) throws Exception;
+    ResponseEntity<CustomerDto> addCustomer(CustomerDto customerDto) ;
 
-    CustomerDto upadtecustomer(Long id, CustomerDto customerDto) throws Exception;
+    ResponseEntity<CustomerDto> upadtecustomer(Long id, CustomerDto customerDto) ;
 
-    CustomerDto deleteCustomer(Long id) throws Exception;
+    ResponseEntity<CustomerDto> deleteCustomer(Long id) ;
 }

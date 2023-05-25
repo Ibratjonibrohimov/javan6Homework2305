@@ -2,6 +2,7 @@ package uz.najottalim.javan6.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uz.najottalim.javan6.dto.ProductDto;
 import uz.najottalim.javan6.service.ProductService;
@@ -9,27 +10,29 @@ import java.util.*;
 
 @RestController
 @RequestMapping("products")
+@CrossOrigin(origins = "*")
 public class ProductController {
     @Autowired
     ProductService productService;
     @GetMapping()
-    public List<ProductDto> getAllProducts(){
+    public ResponseEntity<List<ProductDto>> getAllProducts(){
         return productService.getAllProducts();
     }
     @GetMapping({"/{id}"})
-    public ProductDto getProductById(@PathVariable Long id){
+
+    public ResponseEntity<ProductDto> getProductById(@PathVariable Long id){
         return productService.getProductById(id);
     }
     @PostMapping()
-    public ProductDto addProduct(@RequestBody ProductDto productDto) throws Exception {
+    public ResponseEntity<ProductDto> addProduct(@Validated @RequestBody ProductDto productDto)  {
         return productService.addProduct(productDto);
     }
     @PutMapping("/{id}")
-    public ProductDto updateProduct(@RequestBody ProductDto productDto,@PathVariable Long id) throws Exception {
+    public ResponseEntity<ProductDto> updateProduct(@Validated @RequestBody ProductDto productDto, @PathVariable Long id) {
         return productService.updateProduct(id,productDto);
     }
     @DeleteMapping("/{id}")
-    public ProductDto deleteProduct(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ProductDto> deleteProduct(@PathVariable Long id)  {
         return productService.deleteProduct(id);
     }
 }

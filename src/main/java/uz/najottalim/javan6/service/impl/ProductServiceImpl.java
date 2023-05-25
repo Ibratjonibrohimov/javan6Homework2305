@@ -20,42 +20,44 @@ public class ProductServiceImpl implements ProductService{
     @Autowired
     ProductRepository productRepository;
     @Override
-    public List<ProductDto> getAllProducts() {
-         return productRepository.findAll()
-                 .stream()
-                 .map(ProductMapper::toDto)
-                 .collect(Collectors.toList());
+    public ResponseEntity<List<ProductDto>> getAllProducts() {
+        List<ProductDto> collect = productRepository.findAll()
+                .stream()
+                .map(ProductMapper::toDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(collect);
     }
 
     @Override
-    public ProductDto getProductById(Long id) {
+    public ResponseEntity<ProductDto> getProductById(Long id) {
         Optional<Product> product = productRepository.findById(id);
         if (product.isEmpty()) {
             throw new NoResourceFoundException("No Data found");
         }
         else{
-            return product.map(ProductMapper::toDto).get();
+            ProductDto get = product.map(ProductMapper::toDto).get();
+            return ResponseEntity.ok(get);
         }
     }
 
     @Override
-    public ProductDto addProduct(ProductDto productDto) throws Exception{
+    public ResponseEntity<ProductDto> addProduct(ProductDto productDto) {
         Product save = productRepository.save(ProductMapper.toEntity(productDto));
-        return ProductMapper.toDto(save);
+        ProductDto saved = ProductMapper.toDto(save);
+        return ResponseEntity.ok(saved);
     }
 
     @Override
-    public ProductDto updateProduct(Long id, ProductDto productDto) throws Exception{
-        ProductDto productById = getProductById(id);
-        productById.setCategory(productDto.getCategory());
-        productById.setName(productDto.getName());
-        productById.setPrice(productDto.getPrice());
-        return ProductMapper.toDto(productRepository.save(ProductMapper.toEntity(productById)));
+    public ResponseEntity<ProductDto> updateProduct(Long id, ProductDto productDto) {
+        ResponseEntity<ProductDto> productById = getProductById(id);
+        productDto.setId(id);
+        ProductDto update = ProductMapper.toDto(productRepository.save(ProductMapper.toEntity(productDto)));
+        return ResponseEntity.ok(update);
     }
 
     @Override
-    public ProductDto deleteProduct(Long id)throws Exception {
-        ProductDto productById = getProductById(id);
+    public ResponseEntity<ProductDto> deleteProduct(Long id){
+        ResponseEntity<ProductDto> productById = getProductById(id);
         productRepository.deleteById(id);
         return productById;
     }
