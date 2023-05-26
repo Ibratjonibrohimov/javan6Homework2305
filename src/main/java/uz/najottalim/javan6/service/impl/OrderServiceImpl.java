@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uz.najottalim.javan6.dto.OrderDto;
+import uz.najottalim.javan6.dto.OrderDtoForHighCost;
 import uz.najottalim.javan6.entity.Order;
 import uz.najottalim.javan6.exeption.NoResourceFoundException;
 import uz.najottalim.javan6.mapping.OrderMapper;
@@ -53,6 +54,12 @@ public class OrderServiceImpl implements OrderService {
         ResponseEntity<OrderDto> orderById = getOrderById(id);
         orderRepository.deleteById(id);
         return orderById;
+    }
+
+    @Override
+    public ResponseEntity<List<OrderDtoForHighCost>> getHighCost() {
+        List<OrderDtoForHighCost> highCost = orderRepository.getHighCost().stream().toList();
+        return ResponseEntity.ok(highCost);
     }
 
 }

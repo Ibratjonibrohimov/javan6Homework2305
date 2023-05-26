@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import uz.najottalim.javan6.dto.OrderDto;
 import uz.najottalim.javan6.dto.ProductDto;
+import uz.najottalim.javan6.dto.ProductDtoWithCount;
 import uz.najottalim.javan6.service.ProductService;
 import java.util.*;
 
@@ -34,5 +36,9 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ProductDto> deleteProduct(@PathVariable Long id)  {
         return productService.deleteProduct(id);
+    }
+    @GetMapping("popular-currently")
+    public ResponseEntity<List<ProductDtoWithCount>> getPopularCurrently(){
+        return productService.getPopulerCuurently();
     }
 }

@@ -8,7 +8,8 @@ import java.util.stream.Collectors;
 
 @Data
 public class OrderMapper {
-    public static Order toEntity(OrderDto orderDto){
+    public static Order toEntity(OrderDto orderDto)
+    {
         if (orderDto == null) return null;
         return new Order(
                 orderDto.getId(),

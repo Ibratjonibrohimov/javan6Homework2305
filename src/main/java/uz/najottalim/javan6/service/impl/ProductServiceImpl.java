@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uz.najottalim.javan6.dto.ErrorDto;
 import uz.najottalim.javan6.dto.ProductDto;
+import uz.najottalim.javan6.dto.ProductDtoWithCount;
 import uz.najottalim.javan6.entity.Product;
 import uz.najottalim.javan6.exeption.NoResourceFoundException;
 import uz.najottalim.javan6.mapping.ProductMapper;
@@ -60,5 +61,10 @@ public class ProductServiceImpl implements ProductService{
         ResponseEntity<ProductDto> productById = getProductById(id);
         productRepository.deleteById(id);
         return productById;
+    }
+
+    @Override
+    public ResponseEntity<List<ProductDtoWithCount>> getPopulerCuurently() {
+        return ResponseEntity.ok(productRepository.getPopularCurrently().stream().toList());
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uz.najottalim.javan6.dto.OrderDto;
+import uz.najottalim.javan6.dto.OrderDtoForHighCost;
 import uz.najottalim.javan6.service.OrderService;
 
 import java.util.*;
@@ -33,6 +34,11 @@ public class OrderController {
     @DeleteMapping("/{id}")
     public ResponseEntity<OrderDto> deleteOrder(@PathVariable Long id){
         return orderService.deleteOrder(id);
+    }
+
+    @GetMapping("/high-cost")
+    public ResponseEntity<List<OrderDtoForHighCost>> getHighCost(){
+        return orderService.getHighCost();
     }
 
 }

@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uz.najottalim.javan6.dto.CustomerDto;
+import uz.najottalim.javan6.dto.CustomerDtoForMostValuable;
 import uz.najottalim.javan6.entity.Customer;
 import uz.najottalim.javan6.exeption.NoResourceFoundException;
 import uz.najottalim.javan6.mapping.CustomerMapper;
 import uz.najottalim.javan6.repository.CustomerRepository;
 import uz.najottalim.javan6.service.CustomerService;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -44,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public ResponseEntity<CustomerDto> upadtecustomer(Long id, CustomerDto customerDto) {
+    public ResponseEntity<CustomerDto> upadteCustomer(Long id, CustomerDto customerDto) {
         ResponseEntity<CustomerDto> customerById = getCustomerById(id);
         customerDto.setId(id);
         CustomerDto update =
@@ -57,6 +59,12 @@ public class CustomerServiceImpl implements CustomerService {
         ResponseEntity<CustomerDto> customerById = getCustomerById(id);
         customerRepository.deleteById(id);
         return customerById;
+    }
+
+    @Override
+    public ResponseEntity<List<CustomerDtoForMostValuable>> getMostValuable() {
+        List<CustomerDtoForMostValuable> mostValuable = customerRepository.getMostValuable().stream().toList();
+        return ResponseEntity.ok(mostValuable);
     }
 
 }

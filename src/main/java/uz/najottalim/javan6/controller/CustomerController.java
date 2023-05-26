@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uz.najottalim.javan6.dto.CustomerDto;
+import uz.najottalim.javan6.dto.CustomerDtoForMostValuable;
 import uz.najottalim.javan6.service.CustomerService;
 import java.util.*;
 
@@ -27,10 +28,15 @@ public class CustomerController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<CustomerDto> updateCustomer(@Validated @RequestBody CustomerDto customerDto,@PathVariable Long id){
-        return customerService.upadtecustomer(id,customerDto);
+        return customerService.upadteCustomer(id,customerDto);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<CustomerDto> deleteCustomer(@PathVariable Long id){
         return customerService.deleteCustomer(id);
+    }
+
+    @GetMapping("/most-valuable")
+    public ResponseEntity<List<CustomerDtoForMostValuable>> getMostValuable(){
+        return customerService.getMostValuable();
     }
 }
