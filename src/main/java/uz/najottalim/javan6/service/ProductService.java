@@ -18,4 +18,8 @@ public interface ProductService {
     ResponseEntity<ProductDto> deleteProduct(Long id) ;
 
     ResponseEntity<List<ProductDtoWithCount>> getPopulerCuurently();
+
+    ResponseEntity<List<ProductDto>> getByCategoryAndSortBy(String category, String sortColumnName);
+
+    ResponseEntity<List<ProductDto>> getByCategoryAndSortByPageable(String category, String sortColumnName, Integer pageNum, Integer size);
 }

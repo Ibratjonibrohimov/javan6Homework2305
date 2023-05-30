@@ -1,5 +1,7 @@
 package uz.najottalim.javan6.repository;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
@@ -26,4 +28,8 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
                     "    limit 10;",nativeQuery = true
     )
     Collection<ProductDtoWithCount> getPopularCurrently();
+
+
+    List<Product> findByCategory(String category, Sort sort);
+    List<Product> findByCategory(String category, PageRequest pageRequest);
 }

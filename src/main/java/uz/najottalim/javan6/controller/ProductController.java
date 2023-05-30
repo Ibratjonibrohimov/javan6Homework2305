@@ -41,4 +41,16 @@ public class ProductController {
     public ResponseEntity<List<ProductDtoWithCount>> getPopularCurrently(){
         return productService.getPopulerCuurently();
     }
+    @GetMapping("category/{category}/sortBy/{sortColumnName}")
+    public ResponseEntity<List<ProductDto>> getByCategoryAndSortBy(@PathVariable String category,@PathVariable String sortColumnName){
+        return productService.getByCategoryAndSortBy(category,sortColumnName);
+    }
+    @GetMapping("/category/{category}/sortBy/{sortColumnName}/page-num/{pageNum}/size/{size}")
+    public ResponseEntity<List<ProductDto>> getByCategoryAndSortByPageable(@PathVariable String category,
+                                                                           @PathVariable String sortColumnName,
+                                                                           @PathVariable Integer pageNum,
+                                                                           @PathVariable Integer size)
+    {
+        return productService.getByCategoryAndSortByPageable(category,sortColumnName,pageNum,size);
+    }
 }

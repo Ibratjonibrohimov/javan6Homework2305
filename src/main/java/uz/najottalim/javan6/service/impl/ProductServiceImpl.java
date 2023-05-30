@@ -1,6 +1,8 @@
 package uz.najottalim.javan6.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uz.najottalim.javan6.dto.ErrorDto;
@@ -66,5 +68,17 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public ResponseEntity<List<ProductDtoWithCount>> getPopulerCuurently() {
         return ResponseEntity.ok(productRepository.getPopularCurrently().stream().toList());
+    }
+
+    @Override
+    public ResponseEntity<List<ProductDto>> getByCategoryAndSortBy(String category, String sortColumnName) {
+        List<Product> collect = productRepository.findByCategory(category, Sort.by(sortColumnName));
+        return ResponseEntity.ok(collect.stream().map(ProductMapper::toDtoWithoutOrders).collect(Collectors.toList()));
+    }
+
+    @Override
+    public ResponseEntity<List<ProductDto>> getByCategoryAndSortByPageable(String category, String sortColumnName, Integer pageNum, Integer size) {
+        List<Product> collect = productRepository.findByCategory(category, PageRequest.of(pageNum, size, Sort.by(sortColumnName)));
+        return ResponseEntity.ok(collect.stream().map(ProductMapper::toDtoWithoutOrders).collect(Collectors.toList()));
     }
 }

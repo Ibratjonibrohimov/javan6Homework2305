@@ -1,11 +1,14 @@
 package uz.najottalim.javan6.controller;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uz.najottalim.javan6.dto.CustomerDto;
 import uz.najottalim.javan6.dto.CustomerDtoForMostValuable;
+import uz.najottalim.javan6.dto.CustomerFilterDto;
+import uz.najottalim.javan6.dto.ProductDto;
 import uz.najottalim.javan6.service.CustomerService;
 import java.util.*;
 
@@ -39,4 +42,22 @@ public class CustomerController {
     public ResponseEntity<List<CustomerDtoForMostValuable>> getMostValuable(){
         return customerService.getMostValuable();
     }
+    @GetMapping("/tier/{tier}/sortBy/{sortColumnName}")
+    public ResponseEntity<List<CustomerDto>> getByTierAndSort(@PathVariable Integer tier,@PathVariable String sortColumnName ){
+        return customerService.getBYTierAndSort(tier,sortColumnName);
+    }
+    @GetMapping("/tier/{tier}/sortBy/{sortColumnName}/page-num/{pageNum}/size/{size}")
+    public ResponseEntity<List<CustomerDto>> getByTierAndSortPageable(@PathVariable Integer tier,
+                                                                     @PathVariable String sortColumnName,
+                                                                     @PathVariable Integer pageNum,
+                                                                     @PathVariable Integer size)
+    {
+        return customerService.getByTierAndSortPageable(tier,sortColumnName,pageNum,size);
+    }
+    @PostMapping("/filter")
+    public ResponseEntity<List<CustomerDto>>getCustomersByFilter(@RequestBody String filterJson ){
+        return customerService.getCustomersByFilter(filterJson);
+    }
+
+
 }
