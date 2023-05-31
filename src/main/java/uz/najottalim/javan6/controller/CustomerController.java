@@ -59,5 +59,14 @@ public class CustomerController {
         return customerService.getCustomersByFilter(filterJson);
     }
 
+    @GetMapping("tier/{tier}")
+    public ResponseEntity<List<CustomerDto>> getByTier(@PathVariable Integer tier,
+                                                       @RequestParam Optional<String> sortBy,
+                                                       @RequestParam Optional<Integer> pageNum,
+                                                       @RequestParam Optional<Integer> size)
+    {
+        return customerService.getByTier(tier,sortBy,pageNum,size);
+    }
+
 
 }

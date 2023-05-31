@@ -100,4 +100,23 @@ public class CustomerServiceImpl implements CustomerService {
         return ResponseEntity.ok(customerRepository.getCustomersByFilter(criteria));
     }
 
+    @Override
+    public ResponseEntity<List<CustomerDto>> getByTier(Integer tier, Optional<String> sortBy, Optional<Integer> pageNum, Optional<Integer> size) {
+        List<Customer> result ;
+        if(pageNum.isPresent()&&size.isPresent()){
+            PageRequest pageRequest = PageRequest.of(pageNum.get(),size.get());
+            if(sortBy.isPresent()){
+                pageRequest=pageRequest.withSort(Sort.by(sortBy.get()));
+            }
+            result = customerRepository.findByTier(tier, pageRequest);
+        }else if(sortBy.isPresent()){
+            Sort sort = Sort.by(sortBy.get());
+            result = customerRepository.findByTier(tier,sort);
+        }
+        else{
+            result = customerRepository.findByTier(tier);
+        }
+        return ResponseEntity.ok(result.stream().map(CustomerMapper::toDtoWithoutOrders).collect(Collectors.toList()));
+    }
+
 }

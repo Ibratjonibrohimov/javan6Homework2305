@@ -37,4 +37,5 @@ public interface CustomerRepository extends JpaRepository<Customer,Long> , Custo
     Collection<CustomerDtoForMostValuable> getMostValuable();
     List<Customer> findByTier(Integer tier, Sort sort);
     List<Customer> findByTier(Integer tier, PageRequest pageRequest);
+    List<Customer> findByTier(Integer tier);
 }

@@ -7,6 +7,8 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import uz.najottalim.javan6.dto.CustomerDto;
 import uz.najottalim.javan6.entity.Customer;
 import uz.najottalim.javan6.entity.Order;
@@ -17,6 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -53,4 +56,23 @@ public class CustomerRepositoryExtensionImpl implements CustomerRepositoryExtens
                 CustomerMapper::toDtoWithoutOrders
         ).collect(Collectors.toList());
     }
+
+//    @Override
+//    public List<CustomerDto> getByTier(Integer tier, Optional<String> sortBy, Optional<Integer> pageNum, Optional<Integer> size) {
+//        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+//
+//        CriteriaQuery<Customer> query = criteriaBuilder.createQuery(Customer.class);
+//        Root<Customer> queryRoot = query.from(Customer.class);
+//
+//        List<Predicate> predicates = new ArrayList<>();
+//        if(pageNum.isPresent()&&size.isPresent()){
+//            PageRequest pageRequest = PageRequest.of(pageNum.get(),size.get());
+//            if(sortBy.isPresent()){
+//                pageRequest=pageRequest.withSort(Sort.by(sortBy.get()));
+//            }
+//        }else if(sortBy.isPresent()){
+//            Sort sort = Sort.by(sortBy.get());
+//        }
+//        query.where()
+//    }
 }

@@ -1,5 +1,6 @@
 package uz.najottalim.javan6.controller;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -52,5 +53,22 @@ public class ProductController {
                                                                            @PathVariable Integer size)
     {
         return productService.getByCategoryAndSortByPageable(category,sortColumnName,pageNum,size);
+    }
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<ProductDto>> getByCategory(@PathVariable String category,
+                                                          @RequestParam Optional<String> sortBy,
+                                                          @RequestParam Optional<Integer> pageNum,
+                                                          @RequestParam Optional<Integer> size)
+    {
+        return productService.getByCategory(category,sortBy,pageNum,size);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductDto>> getByFilter(@RequestParam Optional<String> name,
+                                                        @RequestParam Optional<List<String>> category,
+                                                        @RequestParam Optional<Double> minValue,
+                                                        @RequestParam Optional<Double> maxValue)
+    {
+        return productService.getByFilter(name,category,minValue,maxValue);
     }
 }

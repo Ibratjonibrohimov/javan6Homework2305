@@ -7,6 +7,7 @@ import uz.najottalim.javan6.dto.CustomerFilterDto;
 import uz.najottalim.javan6.dto.ProductDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CustomerService {
     ResponseEntity<List<CustomerDto>> getAllCustomers();
@@ -26,4 +27,6 @@ public interface CustomerService {
     ResponseEntity<List<CustomerDto>> getByTierAndSortPageable(Integer tier, String sortColumnName, Integer pageNum, Integer size);
 
     ResponseEntity<List<CustomerDto>> getCustomersByFilter(String filterJson);
+
+    ResponseEntity<List<CustomerDto>> getByTier(Integer tier, Optional<String> sortBy, Optional<Integer> pageNum, Optional<Integer> size);
 }

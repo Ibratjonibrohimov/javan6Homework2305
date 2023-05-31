@@ -5,6 +5,7 @@ import uz.najottalim.javan6.dto.ProductDto;
 import uz.najottalim.javan6.dto.ProductDtoWithCount;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
     ResponseEntity<List<ProductDto>> getAllProducts();
@@ -22,4 +23,8 @@ public interface ProductService {
     ResponseEntity<List<ProductDto>> getByCategoryAndSortBy(String category, String sortColumnName);
 
     ResponseEntity<List<ProductDto>> getByCategoryAndSortByPageable(String category, String sortColumnName, Integer pageNum, Integer size);
+
+    ResponseEntity<List<ProductDto>> getByCategory(String category, Optional<String> sortBy, Optional<Integer> pageNum, Optional<Integer> size);
+
+    ResponseEntity<List<ProductDto>> getByFilter(Optional<String> name, Optional<List<String>> category, Optional<Double> minValue, Optional<Double> maxValue);
 }

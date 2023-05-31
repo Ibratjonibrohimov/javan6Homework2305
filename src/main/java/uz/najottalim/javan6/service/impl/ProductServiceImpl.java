@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import uz.najottalim.javan6.dto.ErrorDto;
 import uz.najottalim.javan6.dto.ProductDto;
 import uz.najottalim.javan6.dto.ProductDtoWithCount;
 import uz.najottalim.javan6.entity.Product;
@@ -81,4 +80,29 @@ public class ProductServiceImpl implements ProductService{
         List<Product> collect = productRepository.findByCategory(category, PageRequest.of(pageNum, size, Sort.by(sortColumnName)));
         return ResponseEntity.ok(collect.stream().map(ProductMapper::toDtoWithoutOrders).collect(Collectors.toList()));
     }
+
+    @Override
+    public ResponseEntity<List<ProductDto>> getByCategory(String category, Optional<String> sortBy, Optional<Integer> pageNum, Optional<Integer> size) {
+        List<Product> result;
+        if(pageNum.isPresent()&&size.isPresent()){
+            PageRequest pageRequest = PageRequest.of(pageNum.get(),size.get());
+            if(sortBy.isPresent()){
+                pageRequest=pageRequest.withSort(Sort.by(sortBy.get()));
+            }
+            result = productRepository.findByCategory(category, pageRequest);
+        }else if(sortBy.isPresent()){
+            Sort sort = Sort.by(sortBy.get());
+            result = productRepository.findByCategory(category,sort);
+        }
+        else{
+            result = productRepository.findByCategory(category);
+        }
+        return ResponseEntity.ok(result.stream().map(ProductMapper::toDtoWithoutOrders).collect(Collectors.toList()));
+    }
+
+    @Override
+    public ResponseEntity<List<ProductDto>> getByFilter(Optional<String> name, Optional<List<String>> category, Optional<Double> minValue, Optional<Double> maxValue) {
+        return ResponseEntity.ok(productRepository.getByFilter(name,category, minValue, maxValue));
+    }
+
 }

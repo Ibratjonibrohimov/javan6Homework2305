@@ -8,10 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import uz.najottalim.javan6.dto.ProductDtoWithCount;
 import uz.najottalim.javan6.entity.Product;
+import uz.najottalim.javan6.repository.extension.ProductRepositoryExtension;
+
 import java.util.*;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product,Long> {
+public interface ProductRepository extends JpaRepository<Product,Long>, ProductRepositoryExtension {
     @Query(
             value = "select opr.product_id id,p.category,p.name,p.price , count(opr.product_id) count from product p\n" +
                     "    join order_product_relationship opr\n" +
@@ -32,4 +34,5 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     List<Product> findByCategory(String category, Sort sort);
     List<Product> findByCategory(String category, PageRequest pageRequest);
+    List<Product> findByCategory(String category);
 }
